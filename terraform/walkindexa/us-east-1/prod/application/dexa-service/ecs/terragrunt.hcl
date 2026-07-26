@@ -100,6 +100,7 @@ inputs = {
     PASSWORD_RESET_JOB_ENABLE       = false
     EMAIL_JOB_ENABLED               = false
     COMMON_QUEUE_JOB_ENABLED        = false
+    APPOINTMENT_REMINDER_JOB_ENABLED = false
     SERVER_PORT                     = "9080"
     SERVER_SECURITY_PORT            = "9081"
   }
@@ -108,6 +109,8 @@ inputs = {
     DATABASE_PASSWORD     = dependency.mysql_service_user.outputs.mysql_user_password_secret_arn
     STRIPE_SECRET_KEY     = "arn:aws:secretsmanager:us-east-1:019476883234:secret:STRIPE_SECRET_KEY-BODtBh"
     STRIPE_WEBHOOK_SECRET = "arn:aws:secretsmanager:us-east-1:019476883234:secret:STRIPE_WEBHOOK_SECRET-bkk87p"
+    TELESIGN_CUSTOMER_ID  = "arn:aws:secretsmanager:us-east-1:019476883234:secret:TELESIGN_CUSTOMER_ID-0a1b2c"
+    TELESIGN_API_KEY      = "arn:aws:secretsmanager:us-east-1:019476883234:secret:TELESIGN_API_KEY-0a1b2c"
   }, dependency.ecs_secrets.outputs.secret_arns)
 
   # DNS is in Cloudflare — after apply, add a CNAME in Cloudflare:

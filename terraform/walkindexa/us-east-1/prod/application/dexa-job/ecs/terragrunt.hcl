@@ -100,6 +100,8 @@ inputs = {
     EMAIL_JOB_ENABLED                           = true
     COMMON_QUEUE_JOB_ENABLED                    = true
     COMMON_QUEUE_JOB_SCHEDULE_IN_MILLIS         = 5000 # 5 seconds in milliseconds
+    APPOINTMENT_REMINDER_JOB_ENABLED            = true
+    APPOINTMENT_REMINDER_JOB_SCHEDULE_IN_MILLIS = 3600000 # 1 hour in milliseconds
     CART_ABANDONMENT_JOB_CRON                   = "0 0 10 * * ?" # Every day at 10:00 UTC
     SERVER_PORT                                 = "9080"
     SERVER_SECURITY_PORT                        = "9081"
@@ -109,6 +111,8 @@ inputs = {
     DATABASE_PASSWORD     = dependency.mysql_service_user.outputs.mysql_user_password_secret_arn
     STRIPE_SECRET_KEY     = "arn:aws:secretsmanager:us-east-1:019476883234:secret:STRIPE_SECRET_KEY-BODtBh"
     STRIPE_WEBHOOK_SECRET = "arn:aws:secretsmanager:us-east-1:019476883234:secret:STRIPE_WEBHOOK_SECRET-bkk87p"
+    TELESIGN_CUSTOMER_ID  = "arn:aws:secretsmanager:us-east-1:019476883234:secret:TELESIGN_CUSTOMER_ID-0a1b2c"
+    TELESIGN_API_KEY      = "arn:aws:secretsmanager:us-east-1:019476883234:secret:TELESIGN_API_KEY-0a1b2c"
   }, dependency.ecs_secrets.outputs.secret_arns)
 
   # DNS is in Cloudflare — dexa-job runs internally; no public DNS entry needed.
