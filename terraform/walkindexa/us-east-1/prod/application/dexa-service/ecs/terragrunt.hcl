@@ -90,20 +90,20 @@ inputs = {
   ecs_cluster_id = dependency.ecs_cluster.outputs.ecs_cluster_id
 
   environment_variables = {
-    RUNNING_PROFILE                 = "prod"
-    DATABASE_URL                    = "jdbc:mysql://${dependency.core_rds_database.outputs.rw_endpoint}/${local.database_schema}?serverTimezone=UTC&zeroDateTimeBehavior=convertToNull&allowPublicKeyRetrieval=true"
-    DATABASE_USERNAME               = dependency.mysql_service_user.outputs.mysql_username
-    DATABASE_SCHEMA                 = local.database_schema
-    RUNNING_PROFILE                 = include.envcommon.locals.env
-    BASE_URL                        = "https://www.${include.envcommon.locals.domain}"
-    API_BASE_URL                    = "https://users.api.${include.envcommon.locals.domain}" # https://users.api.walkindexa.com
-    DATA_LOAD_JOB_ENABLED           = false
-    PASSWORD_RESET_JOB_ENABLE       = false
-    EMAIL_JOB_ENABLED               = false
-    COMMON_QUEUE_JOB_ENABLED        = false
-    APPOINTMENT_REMINDER_JOB_ENABLED = false
-    SERVER_PORT                     = "9080"
-    SERVER_SECURITY_PORT            = "9081"
+    RUNNING_PROFILE                   = "prod"
+    DATABASE_URL                      = "jdbc:mysql://${dependency.core_rds_database.outputs.rw_endpoint}/${local.database_schema}?serverTimezone=UTC&zeroDateTimeBehavior=convertToNull&allowPublicKeyRetrieval=true"
+    DATABASE_USERNAME                 = dependency.mysql_service_user.outputs.mysql_username
+    DATABASE_SCHEMA                   = local.database_schema
+    RUNNING_PROFILE                   = include.envcommon.locals.env
+    BASE_URL                          = "https://www.${include.envcommon.locals.domain}"
+    API_BASE_URL                      = "https://users.api.${include.envcommon.locals.domain}" # https://users.api.walkindexa.com
+    DATA_LOAD_JOB_ENABLED             = false
+    PASSWORD_RESET_JOB_ENABLED        = false
+    EMAIL_JOB_ENABLED                 = false
+    COMMON_QUEUE_JOB_ENABLED          = false
+    APPOINTMENT_REMINDER_JOB_ENABLED  = false
+    SERVER_PORT                       = "9080"
+    SERVER_SECURITY_PORT              = "9081"
   }
 
   secrets = merge({
