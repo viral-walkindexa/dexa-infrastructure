@@ -94,15 +94,17 @@ inputs = {
     SMTP_HOST                                   = "email-smtp.us-east-1.amazonaws.com"
     SMTP_PORT                                   = "587"
     DATA_LOAD_JOB_ENABLED                       = true
-    DATA_LOAD_JOB_SCHEDULE_IN_MILLIS            = 300000 # 5 mins in milliseconds
+    DATA_LOAD_JOB_SCHEDULE_IN_MILLIS            = 300000   # 5 mins in milliseconds
     PASSWORD_RESET_JOB_FREQ_IN_MILLIS           = 86400000 # 24 hours in milliseconds
     PASSWORD_RESET_JOB_ENABLED                  = true
-    EMAIL_JOB_FREQ_IN_MILLIS                    = 5000 # 5 seconds in milliseconds
+    EMAIL_JOB_FREQ_IN_MILLIS                    = 2000 # 2 seconds in milliseconds
     EMAIL_JOB_ENABLED                           = true
+    SMS_JOB_FREQ_IN_MILLIS                      = 2000 # 2 seconds in milliseconds
+    SMS_JOB_ENABLED                             = true
     COMMON_QUEUE_JOB_ENABLED                    = true
-    COMMON_QUEUE_JOB_SCHEDULE_IN_MILLIS         = 5000 # 5 seconds in milliseconds
+    COMMON_QUEUE_JOB_SCHEDULE_IN_MILLIS         = 3000 # 3 seconds in milliseconds
     APPOINTMENT_REMINDER_JOB_ENABLED            = true
-    APPOINTMENT_REMINDER_JOB_SCHEDULE_IN_MILLIS = 3600000 # 1 hour in milliseconds
+    APPOINTMENT_REMINDER_JOB_SCHEDULE_IN_MILLIS = 3600000        # 1 hour in milliseconds
     CART_ABANDONMENT_JOB_CRON                   = "0 0 10 * * ?" # Every day at 10:00 UTC
     SERVER_PORT                                 = "9080"
     SERVER_SECURITY_PORT                        = "9081"
@@ -122,7 +124,7 @@ inputs = {
     create_dns_entry = false
     hosted_zone_id   = null
   }
-  lb_listener_arn = dependency.application_load_balancer.outputs.default_listener_arn
+  lb_listener_arn  = dependency.application_load_balancer.outputs.default_listener_arn
   lb_matching_path = ["/noneshouldmatchthisone/*"]
 
   health_check = {
@@ -132,7 +134,7 @@ inputs = {
     port     = "9081"
   }
 
-  extra_iam_policies = {}
+  extra_iam_policies           = {}
   whitelist_security_group_ids = [dependency.application_load_balancer.outputs.default_security_group_id, dependency.core_security_groups.outputs.bastion_security_group]
   additional_security_group_ids = [
     dependency.core_rds_database.outputs.default_application_access_security_group_id
