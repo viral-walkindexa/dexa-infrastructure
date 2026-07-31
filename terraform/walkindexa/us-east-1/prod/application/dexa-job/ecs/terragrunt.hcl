@@ -66,6 +66,11 @@ dependency "ecs_secrets" {
 
 locals {
   database_schema = "walkindexa" # TODO: Create this database in terraform
+
+  # Same combined app-secrets JSON secret used by dexa-service (Stripe, Telesign, AWS SMS share
+  # the same underlying accounts/credentials, so there's no need for a second copy here).
+  # DATABASE_PASSWORD stays out of it — auto-generated/rotated by the rds-cluster module.
+  app_secrets_arn = "arn:aws:secretsmanager:us-east-1:019476883234:secret:dexa-service-app-secrets-cjJDfh"
 }
 
 # inputs get merged with the common inputs from the root and the envcommon terragrunt.hcl
@@ -108,14 +113,17 @@ inputs = {
     CART_ABANDONMENT_JOB_CRON                   = "0 0 10 * * ?" # Every day at 10:00 UTC
     SERVER_PORT                                 = "9080"
     SERVER_SECURITY_PORT                        = "9081"
+    AWS_SMS_REGION                              = "us-east-1"
   }
 
   secrets = merge({
     DATABASE_PASSWORD     = dependency.mysql_service_user.outputs.mysql_user_password_secret_arn
-    STRIPE_SECRET_KEY     = "arn:aws:secretsmanager:us-east-1:019476883234:secret:STRIPE_SECRET_KEY-BODtBh"
-    STRIPE_WEBHOOK_SECRET = "arn:aws:secretsmanager:us-east-1:019476883234:secret:STRIPE_WEBHOOK_SECRET-bkk87p"
-    TELESIGN_CUSTOMER_ID  = "arn:aws:secretsmanager:us-east-1:019476883234:secret:TELESIGN_CUSTOMER_ID-2ID1oW"
-    TELESIGN_API_KEY      = "arn:aws:secretsmanager:us-east-1:019476883234:secret:TELESIGN_API_KEY-EWaIhL"
+    STRIPE_SECRET_KEY     = "${local.app_secrets_arn}:STRIPE_SECRET_KEY::"
+    STRIPE_WEBHOOK_SECRET = "${local.app_secrets_arn}:STRIPE_WEBHOOK_SECRET::"
+    TELESIGN_CUSTOMER_ID  = "${local.app_secrets_arn}:TELESIGN_CUSTOMER_ID::"
+    TELESIGN_API_KEY      = "${local.app_secrets_arn}:TELESIGN_API_KEY::"
+    AWS_ACCESS_KEY_ID     = "${local.app_secrets_arn}:AWS_ACCESS_KEY_ID::"
+    AWS_SECRET_ACCESS_KEY = "${local.app_secrets_arn}:AWS_SECRET_ACCESS_KEY::"
   }, dependency.ecs_secrets.outputs.secret_arns)
 
   # DNS is in Cloudflare — dexa-job runs internally; no public DNS entry needed.
